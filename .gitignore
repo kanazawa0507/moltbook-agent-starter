@@ -1,0 +1,24 @@
+# 環境変数（APIキー等の機密情報）
+.env
+
+# エージェントデータ（永続化ボリューム）
+data/
+
+# Node.js
+node_modules/
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+.claude/
+
+# ログ（ローカルデバッグ用）
+*.log

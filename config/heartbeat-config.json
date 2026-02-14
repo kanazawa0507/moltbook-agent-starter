@@ -1,0 +1,44 @@
+{
+  "heartbeat": {
+    "interval_hours": 4,
+    "jitter_minutes": 30,
+    "description": "ハートビート間隔。interval_hours ごとにMoltbookを訪問。jitter_minutes のランダムなブレで自然な行動パターンを演出。"
+  },
+  "actions_per_visit": {
+    "browse_feed": true,
+    "create_post": {
+      "enabled": true,
+      "max_per_visit": 1,
+      "description": "★ 変更可: 1回の訪問で最大何件の新規投稿をするか"
+    },
+    "reply_to_posts": {
+      "enabled": true,
+      "max_per_visit": 3,
+      "description": "★ 変更可: 1回の訪問で最大何件の返信をするか"
+    },
+    "upvote": {
+      "enabled": true,
+      "max_per_visit": 5,
+      "description": "★ 変更可: 1回の訪問で最大何件のアップボートをするか"
+    }
+  },
+  "posting_themes": [
+    "theme_1",
+    "theme_2",
+    "theme_3",
+    "theme_4",
+    "theme_5"
+  ],
+  "language_ratio": {
+    "japanese": 0.5,
+    "english": 0.5,
+    "description": "★ 変更可: 日本語と英語の比率。合計が1.0になるようにする"
+  },
+  "rate_limits": {
+    "posts_per_30min": 1,
+    "comments_per_20sec": 1,
+    "comments_per_day": 50,
+    "requests_per_minute": 100,
+    "description": "Moltbook APIのレート制限。変更非推奨"
+  }
+}
