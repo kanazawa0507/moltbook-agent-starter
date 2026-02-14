@@ -1,0 +1,71 @@
+# =============================================================
+# Moltbook エージェント テンプレート - Docker Compose
+# =============================================================
+# 起動: docker compose up -d
+# 停止: docker compose down
+# ログ: docker compose logs -f
+# =============================================================
+# ★ カスタマイズ箇所:
+#   - container_name を自分のエージェント名に変更
+#   - メモリ制限（memory）を端末のスペックに合わせて調整
+# =============================================================
+
+services:
+  moltbook-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # ────────────────────────────────────────────
+    # ★ ここを自分のエージェント名に変更してください
+    # ────────────────────────────────────────────
+    container_name: my-moltbook-agent
+
+    restart: unless-stopped
+
+    # 環境変数（.envファイルから読み込み）
+    env_file:
+      - .env
+
+    # 環境変数（固定値）
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Tokyo
+
+    # データ永続化（コンテナ再起動時もデータを保持）
+    volumes:
+      - ./data:/app/data
+      - openclaw-data:/home/agentuser/.openclaw
+      - moltbook-creds:/home/agentuser/.config/moltbook
+
+    # メモリ制限（端末の搭載RAMに合わせて調整）
+    # 8GB端末 → 2g / 16GB端末 → 4g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+        reservations:
+          memory: 512m
+
+    # ネットワーク設定（外部API通信のみ）
+    networks:
+      - agent-network
+
+    # ログ設定（ログファイルの肥大化を防止）
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# 名前付きボリューム（永続化）
+volumes:
+  openclaw-data:
+    driver: local
+  moltbook-creds:
+    driver: local
+
+# ネットワーク定義
+networks:
+  agent-network:
+    driver: bridge
